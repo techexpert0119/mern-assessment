@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "@redux-saga/core";
 
-import reducer from "./slices";
-import saga from "./sagas";
+import reducer from "./index-reducer";
+import saga from "./index-saga";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,8 +14,8 @@ const store = configureStore({
 sagaMiddleware.run(saga);
 
 if (module.hot) {
-    module.hot.accept("./slices", () => {
-        const reducers = require("./slices").default;
+    module.hot.accept("./index-reducer", () => {
+        const reducers = require("./index-reducer").default;
 
         store.replaceReducers(reducers);
     });
