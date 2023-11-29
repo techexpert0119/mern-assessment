@@ -5,6 +5,24 @@ const ErrorResponse = require("../utils/errorResponse"); // As we will handle er
 const sendEmail = require("../utils/sendEmail");
 
 /**
+ * @description Get uesr data with token
+ * @route GET /api/auth/user
+ * @access Public
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
+const findMe = async (req, res, next) => {
+  try {
+    return sendAuth(req.user, 200, res);
+  }
+  catch (error) {
+    return next(error);
+  }
+}
+
+/**
  * @description Register a user
  * @route POST /api/auth/register
  * @access Public
@@ -202,4 +220,4 @@ const sendAuth = (user, statusCode, res) => {
   });
 };
 
-module.exports = { register, login, forgotPassword, resetPassword };
+module.exports = { findMe, register, login, forgotPassword, resetPassword };
