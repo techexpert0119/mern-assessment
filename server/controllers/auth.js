@@ -4,9 +4,15 @@ const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse"); // As we will handle errors using "next()"
 const sendEmail = require("../utils/sendEmail");
 
-// @description     Register a user
-// @route           POST /api/auth/register
-// @access          Public
+/**
+ * @description Register a user
+ * @route POST /api/auth/register
+ * @access Public
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 const register = async (req, res, next) => {
   try {
     const { name, email, password, profilePic } = req.body;
@@ -47,9 +53,15 @@ const register = async (req, res, next) => {
   }
 };
 
-// @description     Login a user
-// @route           POST /api/auth/login
-// @access          Public
+/**
+ * @description Login a user
+ * @route POST /api/auth/auth
+ * @access Public
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -77,9 +89,15 @@ const login = async (req, res, next) => {
   }
 };
 
-// @description     Forgot password
-// @route           POST /api/auth/forgotPassword
-// @access          Public
+/**
+ * @description Forgot password
+ * @route POST /api/auth/forgotPassword
+ * @access Public
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 const forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -129,9 +147,15 @@ const forgotPassword = async (req, res, next) => {
   }
 };
 
-// @description     Reset password
-// @route           PUT /api/auth/resetPassword/:resetToken
-// @access          Public
+/**
+ * @description Reset password
+ * @route PUT /api/auth/resetPassword/:resetToken
+ * @access Public
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 const resetPassword = async (req, res, next) => {
   const { password } = req.body;
 
