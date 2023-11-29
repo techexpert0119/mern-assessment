@@ -4,13 +4,13 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { isAuthenticated, getLoading } from "../container/User/slice/selector";
 
-const PrivateRoutes = ({ children }) => {
+const PublicRoutes = ({ children }) => {
   const isAuth = useSelector(isAuthenticated);
   const loading = useSelector(getLoading);
 
-  if (!isAuth && !loading) return <Navigate to="/login" />;
+  if (isAuth && !loading) return <Navigate to="/tasks" />;
 
   return <Outlet />;
 };
 
-export default PrivateRoutes;
+export default PublicRoutes;
