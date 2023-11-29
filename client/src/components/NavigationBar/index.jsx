@@ -10,21 +10,22 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 
 import IMAGES from "../../assets"; // Importing images from single "IMAGES" object
-import { AuthState } from "../../context/AuthProvider";
 import ProfileModal from "../ProfileModal";
 
 import "./index.css";
+import { useSelector, useDispatch } from "react-redux";
+import { getAuthUser } from "../../container/User/slice/selector";
+import { logOut } from "../../container/User/slice/reducer";
 
 const NavigationBar = () => {
   const [modalShow, setModalShow] = useState(false);
-
   const navigate = useNavigate();
-  const { auth, setAuth } = AuthState();
+  const dispatch = useDispatch();
+  const authData = useSelector(getAuthUser);
 
   const logoutHandler = () => {
     localStorage.removeItem("auth");
-    setAuth(null);
-    return navigate("/login");
+    dispatch(logOut());
   };
 
   return (
@@ -44,14 +45,14 @@ const NavigationBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
         <Navbar.Collapse className="justify-content-end">
-          {auth ? (
+          {authData ? (
             <DropdownButton
               variant=""
               align="end"
               title={
                 <Image
                   id="profileDropdownIcon"
-                  src={auth.profilePic}
+                  src={authData.profilePic}
                   alt="Navbar profile image"
                   roundedCircle
                 />
@@ -63,6 +64,7 @@ const NavigationBar = () => {
               <ProfileModal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
+                authData={authData}
               />
 
               <Dropdown.Divider />

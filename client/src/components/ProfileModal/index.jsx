@@ -1,10 +1,6 @@
 import { Button, Image, Modal } from "react-bootstrap";
 
-import { AuthState } from "../../context/AuthProvider";
-
-const ProfileModal = ({ show, onHide }) => {
-  const { auth } = AuthState();
-
+const ProfileModal = ({ show, onHide, authData }) => {
   return (
     <Modal
       show={show}
@@ -22,14 +18,14 @@ const ProfileModal = ({ show, onHide }) => {
         <div className="d-flex justify-content-center">
           <Image
             id="profileModal"
-            src={auth.profilePic}
+            src={authData.profilePic}
             alt="Profile image"
             draggable="false"
             roundedCircle
           />
         </div>
-        <h4 className="text-center mt-3">{auth.name}</h4>
-        <h4 className="text-center">Email: {auth.email}</h4>
+        <h4 className="text-center mt-3">{authData.name}</h4>
+        <h4 className="text-center">Email: {authData.email}</h4>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onHide}>Close</Button>
