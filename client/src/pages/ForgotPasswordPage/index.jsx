@@ -3,6 +3,7 @@ import { Form, Button, Spinner, Container } from "react-bootstrap";
 
 import IMAGES from "../../assets";
 import { Notify } from "../../utils";
+import { fetchAPI } from "../../utils/fetchAPI";
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const ForgotPasswordScreen = () => {
     }
 
     try {
-      const response = await fetch("/auth/forgotPassword", {
+      const data = await fetchAPI("/auth/forgotPassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +30,6 @@ const ForgotPasswordScreen = () => {
           email,
         }),
       });
-      const data = await response.json();
 
       if (data.success) {
         setIsLoading(false);

@@ -4,6 +4,7 @@ import { Form, Button, Spinner, Container } from "react-bootstrap";
 
 import IMAGES from "../../assets";
 import { Notify } from "../../utils";
+import { fetchAPI } from "../../utils/fetchAPI";
 
 const PasswordResetPage = () => {
   const [credentials, setCredentials] = useState({
@@ -42,7 +43,7 @@ const PasswordResetPage = () => {
     }
 
     try {
-      const response = await fetch(`/auth/resetPassword/${resetToken}`, {
+      const data = await fetchAPI(`/auth/resetPassword/${resetToken}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +52,6 @@ const PasswordResetPage = () => {
           password: credentials.password,
         }),
       });
-      const data = await response.json();
 
       if (data.success) {
         setIsLoading(false);

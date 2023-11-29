@@ -4,6 +4,7 @@ import { Form, Button, Spinner } from "react-bootstrap";
 
 import { AuthState } from "../../context/AuthProvider";
 import { Notify } from "../../utils";
+import { fetchAPI } from "../../utils/fetchAPI";
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({
@@ -30,7 +31,7 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await fetch("/auth/login", {
+      const data = await fetchAPI("/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +41,6 @@ const LoginPage = () => {
           password: credentials.password,
         }),
       });
-      const data = await response.json();
 
       if (data.success) {
         localStorage.setItem("auth", JSON.stringify(data)); // Save auth details in local storage

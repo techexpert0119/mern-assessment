@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { AuthState } from "../../context/AuthProvider";
 import { Notify } from "../../utils";
+import { fetchAPI } from "../../utils/fetchAPI";
 
 const HomePage = () => {
   const [privateMessage, setPrivateMessage] = useState("");
@@ -12,14 +13,13 @@ const HomePage = () => {
 
   const fetchPrivateDate = async () => {
     try {
-      const response = await fetch("/private", {
+      const data = await fetchAPI("/private", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.token}`,
         },
       });
-      const data = await response.json();
 
       if (data.success) {
         setPrivateMessage(data.data);

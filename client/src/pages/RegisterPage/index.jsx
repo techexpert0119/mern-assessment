@@ -5,6 +5,7 @@ import { Form, Button, Spinner, Image } from "react-bootstrap";
 import { AuthState } from "../../context/AuthProvider";
 import { Notify } from "../../utils";
 import IMAGES from "../../assets";
+import { fetchAPI } from "../../utils/fetchAPI";
 
 const RegisterPage = () => {
   const [credentials, setCredentials] = useState({
@@ -51,7 +52,7 @@ const RegisterPage = () => {
 
     try {
       // Register user
-      const response = await fetch("/auth/register", {
+      const data = await fetchAPI("/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +63,6 @@ const RegisterPage = () => {
           password: credentials.password,
         }),
       });
-      const data = await response.json();
 
       if (data.success) {
         localStorage.setItem("auth", JSON.stringify(data)); // Save auth details in local storage
