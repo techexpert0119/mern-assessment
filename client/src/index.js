@@ -8,7 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import "./App.css";
 import store from "./store";
-import AuthProvider from "./context/AuthProvider";
+import AuthProvider from "./AuthProvider";
+// import history from "./history";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
