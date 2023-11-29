@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
+const cors = require("cors");
 dotenv.config({ path: "./.env" });
 
 const connectDB = require("./config/db");
@@ -9,6 +10,9 @@ const errorHandler = require("./middleware/error");
 const app = express();
 app.use(express.json());
 connectDB(); // Connect to databse
+
+// Use CORS with default options
+app.use(cors());
 
 // API Routes
 app.use("/api/auth", require("./routes/auth"));
