@@ -20,7 +20,7 @@ const ForgotPasswordScreen = () => {
     }
 
     try {
-      const response = await fetch("/api/auth/forgotPassword", {
+      const response = await fetch("/auth/forgotPassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

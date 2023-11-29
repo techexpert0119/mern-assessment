@@ -12,7 +12,7 @@ const HomePage = () => {
 
   const fetchPrivateDate = async () => {
     try {
-      const response = await fetch("/api/private", {
+      const response = await fetch("/private", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

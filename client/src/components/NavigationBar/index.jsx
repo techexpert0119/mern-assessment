@@ -11,9 +11,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import IMAGES from "../../assets"; // Importing images from single "IMAGES" object
 import { AuthState } from "../../context/AuthProvider";
-import ProfileModal from "../ProfileModal/ProfileModal";
+import ProfileModal from "../ProfileModal";
 
-import "./NavigationBar.css";
+import "./index.css";
 
 const NavigationBar = () => {
   const [modalShow, setModalShow] = useState(false);
