@@ -16,16 +16,20 @@ import "./index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuthUser } from "../../container/User/slice/selector";
 import { logOut } from "../../container/User/slice/reducer";
+import { Notify } from "../../utils";
+import { setNavigate } from "../../utils/navigate";
 
 const NavigationBar = () => {
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const authData = useSelector(selectAuthUser);
+  setNavigate(navigate);
 
   const logoutHandler = () => {
     localStorage.removeItem("auth");
     dispatch(logOut());
+    Notify("Successfully Logged out", "success");
   };
 
   return (

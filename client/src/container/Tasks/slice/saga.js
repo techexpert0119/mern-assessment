@@ -19,7 +19,8 @@ import {
     deleteTaskFail
 } from './reducer'
 
-import { Notify, History } from "../../../utils";
+import { Notify } from "../../../utils";
+import { Navigate } from "../../../utils/navigate";
 
 // Get all tasks
 function* getAllTasksSaga() {
@@ -53,7 +54,7 @@ function* createTaskSaga({ payload }) {
         const response = yield createTaskAPI(payload);
         if (response.success) {
             yield put(createTaskSuccess(response.data));
-            History.push('/tasks');
+            Navigate('/tasks');
             Notify("Successfully created!", "success")
         }
         else {
@@ -72,7 +73,7 @@ function* updateTaskSaga({ payload }) {
         const response = yield updateTaskAPI(payload);
         if (response.success) {
             yield put(updateTaskSuccess(response.data));
-            History.push('/tasks');
+            Navigate('/tasks');
             Notify("Successfully updated!", "success")
         }
         else {
@@ -91,6 +92,7 @@ function* deleteTaskSaga({ payload: { _id } }) {
         const response = yield deleteTaskAPI(_id);
         if (response.success) {
             yield put(deleteTaskSuccess(response.data));
+            Navigate('/tasks');
             Notify("Successfully deleted!", "success")
         }
         else {

@@ -13,8 +13,6 @@ import {
   TaskEditPage,
   LoginPage,
   RegisterPage,
-  ForgotPasswordPage,
-  PasswordResetPage,
 } from "./pages";
 
 import { NavigationBar } from "./components";
@@ -38,11 +36,6 @@ const App = () => {
         <Route element={<PublicRoutes />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-          <Route
-            path="/passwordReset/:resetToken"
-            element={<PasswordResetPage />}
-          />
         </Route>
 
         {/* If the user enters an invalid path in the URL it automatically redirects them to the homepage */}

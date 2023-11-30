@@ -66,16 +66,6 @@ const Login = ({ isLoading, requestLogin }) => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-3 text-center" controlId="register">
-        <Link
-          to="/forgotPassword"
-          tabIndex="4"
-          className="d-flex flex-row-reverse text-decoration-none mb-3"
-        >
-          Forgot password?
-        </Link>
-      </Form.Group>
-
       <Button
         variant="success"
         type="submit"
