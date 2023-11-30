@@ -6,7 +6,7 @@ const initialState = {
     data: null,
     loading: false,
     error: null,
-    isAuthenticated: false,
+    isAuthenticated: null,
 };
 
 const userSlice = createSlice({
@@ -25,6 +25,7 @@ const userSlice = createSlice({
         authUserFail(state, { payload: error }) {
             state.loading = false;
             state.error = error;
+            state.isAuthenticated = false;
         },
         loginUser(state, { payload }) {
             state.loading = true;

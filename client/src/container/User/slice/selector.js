@@ -3,8 +3,8 @@ import { name } from "./reducer";
 
 const getSlice = (state) => state[name] || {};
 
-export const getAuthUser = createSelector(getSlice, (slice) => slice.data);
+export const selectAuthUser = createSelector(getSlice, (slice) => slice.data);
 
-export const getLoading = createSelector(getSlice, (slice) => slice.loading);
+export const selectLoading = createSelector(getSlice, (slice) => slice.loading);
 
 export const isAuthenticated = createSelector(getSlice, (slice) => slice.isAuthenticated);

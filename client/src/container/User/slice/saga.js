@@ -10,32 +10,39 @@ import {
     loginUserFail,
 } from "./reducer";
 
+import { Notify } from '../../../utils'
+
 // Auth User with token
 function* authUserSaga() {
     try {
-        const data = yield authUserAPI();
-        if (data.success) {
-            yield put(authUserSuccess(data));
+        const response = yield authUserAPI();
+        if (response.success) {
+            yield put(authUserSuccess(response.data));
         } else {
-            yield put(authUserFail(data.error));
+            yield put(authUserFail(response.error));
+            Notify(response.error, 'error')
         }
     } catch (error) {
         yield put(loginUserFail(error));
+        Notify(error, 'error')
     }
 }
 
 // Login User
 function* loginUserSaga({ payload }) {
     try {
-        const data = yield loginUserAPI(payload);
-        if (data.success) {
-            localStorage.setItem("auth", data.token);
-            yield put(loginUserSuccess(data));
+        const response = yield loginUserAPI(payload);
+        if (response.success) {
+            localStorage.setItem("auth", response.data.token);
+            yield put(loginUserSuccess(response.data));
+            Notify("Successfully logged in", 'success')
         } else {
-            yield put(loginUserFail(data.error));
+            yield put(loginUserFail(response.error));
+            Notify(response.error, 'error')
         }
     } catch (error) {
         yield put(loginUserFail(error));
+        Notify(error, 'error')
     }
 }
 
