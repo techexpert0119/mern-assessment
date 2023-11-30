@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Spinner, Button, Form } from "react-bootstrap";
 import moment from "moment";
+import { Notify } from "../../utils";
 
 export default function TaskForm({
   task,
@@ -41,6 +42,9 @@ export default function TaskForm({
     e.stopPropagation();
     const form = e.currentTarget;
     if (form.checkValidity(e) === true) {
+      if (moment(formData.deadline).diff(new Date()) < 0) {
+        return Notify("Deadline must be a feature date!", "warn");
+      }
       task
         ? requestUpdate({
             _id: task._id,

@@ -92,7 +92,7 @@ function* deleteTaskSaga({ payload: { _id } }) {
         const response = yield deleteTaskAPI(_id);
         if (response.success) {
             yield put(deleteTaskSuccess(response.data));
-            Navigate('/tasks');
+            yield put(getAllTasks());
             Notify("Successfully deleted!", "success")
         }
         else {
