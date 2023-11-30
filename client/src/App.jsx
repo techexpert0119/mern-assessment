@@ -8,7 +8,9 @@ import { PrivateRoutes, PublicRoutes } from "./utils";
 
 // Pages
 import {
-  TasksPage,
+  TaskListPage,
+  TaskCreatePage,
+  TaskEditPage,
   LoginPage,
   RegisterPage,
   ForgotPasswordPage,
@@ -27,7 +29,9 @@ const App = () => {
 
         {/* Private routes (Requires authentication token) */}
         <Route element={<PrivateRoutes />}>
-          <Route path="/tasks" element={<TasksPage />} />
+          <Route path="/tasks" element={<TaskListPage />} />
+          <Route path="/tasks/create" element={<TaskCreatePage />} />
+          <Route path="/tasks/:_id" element={<TaskEditPage />} />
         </Route>
 
         {/* Public routes */}

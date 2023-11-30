@@ -7,10 +7,7 @@ const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("auth");
-    if (token) {
-      dispatch(authUser());
-    }
+    dispatch(authUser());
   }, [dispatch]);
 
   return children;

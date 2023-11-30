@@ -9,13 +9,14 @@ import App from "./App";
 import "./App.css";
 import store from "./store";
 import AuthProvider from "./AuthProvider";
-// import history from "./history";
+
+import { History } from "./utils";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter history={History}>
         <AuthProvider>
           <App />
         </AuthProvider>
