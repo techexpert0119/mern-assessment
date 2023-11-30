@@ -1,5 +1,5 @@
 import { put, takeLatest } from "redux-saga/effects";
-import { loginUserAPI, authUserAPI } from "./api";
+import { loginUserAPI, registerUserAPI, authUserAPI } from "./api";
 
 import {
     authUser,
@@ -8,6 +8,9 @@ import {
     loginUser,
     loginUserSuccess,
     loginUserFail,
+    registerUser,
+    registerUserSuccess,
+    registerUserFail
 } from "./reducer";
 
 import { Notify } from '../../../utils'
@@ -46,7 +49,26 @@ function* loginUserSaga({ payload }) {
     }
 }
 
+// Login User
+function* registerUserSaga({ payload }) {
+    try {
+        const response = yield registerUserAPI(payload);
+        if (response.success) {
+            localStorage.setItem("auth", response.data.token);
+            yield put(registerUserSuccess(response.data));
+            Notify("Successfully logged in", 'success')
+        } else {
+            yield put(registerUserFail(response.error));
+            Notify(response.error, 'error')
+        }
+    } catch (error) {
+        yield put(registerUserFail(error));
+        Notify(error, 'error')
+    }
+}
+
 export function* watchUser() {
     yield takeLatest(loginUser.type, loginUserSaga);
+    yield takeLatest(registerUser.type, registerUserSaga);
     yield takeLatest(authUser.type, authUserSaga);
 }

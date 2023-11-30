@@ -15,3 +15,10 @@ export const loginUserAPI = async (payload) => {
         }),
     });
 }
+
+export const registerUserAPI = async (payload) => {
+    return await fetchAPI("/auth/register", {
+        method: "POST",
+        body: JSON.stringify(payload),
+    });
+}

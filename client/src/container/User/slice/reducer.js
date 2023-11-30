@@ -40,6 +40,19 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = error;
         },
+        registerUser(state, { payload }) {
+            state.loading = true;
+            state.error = null;
+        },
+        registerUserSuccess(state, { payload: data }) {
+            state.data = data;
+            state.loading = false;
+            state.isAuthenticated = true;
+        },
+        registerUserFail(state, { payload: error }) {
+            state.loading = false;
+            state.error = error;
+        },
         logOut(state) {
             state.data = null;
             state.isAuthenticated = false;
@@ -54,6 +67,9 @@ export const {
     loginUser,
     loginUserSuccess,
     loginUserFail,
+    registerUser,
+    registerUserSuccess,
+    registerUserFail,
     logOut
 } = userSlice.actions;
 
