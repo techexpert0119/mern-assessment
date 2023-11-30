@@ -1,8 +1,5 @@
-const crypto = require("crypto");
-
 const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse"); // As we will handle errors using "next()"
-const sendEmail = require("../utils/sendEmail");
 
 /**
  * @description Get uesr data with token
@@ -107,108 +104,6 @@ const login = async (req, res, next) => {
   }
 };
 
-/**
- * @description Forgot password
- * @route POST /api/auth/forgotPassword
- * @access Public
- * @param {*} req
- * @param {*} res
- * @param {*} next
- * @returns
- */
-const forgotPassword = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return next(new ErrorResponse("Email could not be sent", 404));
-    }
-
-    // Generate Reset Token and add to database hashed (private) version of token
-    const resetToken = user.getResetPasswordToken();
-
-    await user.save();
-
-    // Create reset url to email to provided email
-    const resetUrl = `${process.env.APP_BASE_URL}/passwordReset/${resetToken}`;
-
-    // Reset password email template in HTML
-    const html = `
-      <h1>You have requested a password reset</h1>
-      <p>Please go to this link to reset your password:</p>
-      <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
-    `;
-
-    try {
-      await sendEmail({
-        to: user.email,
-        subject: "Password Reset Request",
-        text: "Your password can be reset by clicking the link below",
-        html,
-      });
-
-      return res
-        .status(200)
-        .json({ success: true, data: "Email Sent Successfully" });
-    } catch (error) {
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpire = undefined;
-
-      await user.save();
-
-      return next(new ErrorResponse("Email could not be sent", 500));
-    }
-  } catch (error) {
-    return next(error);
-  }
-};
-
-/**
- * @description Reset password
- * @route PUT /api/auth/resetPassword/:resetToken
- * @access Public
- * @param {*} req
- * @param {*} res
- * @param {*} next
- * @returns
- */
-const resetPassword = async (req, res, next) => {
-  const { password } = req.body;
-
-  // Compare token in URL params to hashed token
-  const resetPasswordToken = crypto
-    .createHash("sha256")
-    .update(req.params.resetToken)
-    .digest("hex");
-
-  try {
-    const user = await User.findOne({
-      resetPasswordToken,
-      resetPasswordExpire: { $gt: Date.now() }, // Check if token is still valid
-    });
-
-    if (!user) {
-      return next(new ErrorResponse("Invalid reset token", 400));
-    }
-
-    user.password = password; // Modify existing password
-    // As we already used the "resetPasswordToken", we will set it to "undefined"
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-
-    await user.save();
-
-    return res.status(201).json({
-      success: true,
-      data: "Password Updated Successfully",
-    });
-  } catch (error) {
-    return next(error);
-  }
-};
-
 const sendAuth = (user, statusCode, res) => {
   return res.status(statusCode).json({
     success: true,
@@ -222,4 +117,4 @@ const sendAuth = (user, statusCode, res) => {
   });
 };
 
-module.exports = { findMe, register, login, forgotPassword, resetPassword };
+module.exports = { findMe, register, login };
