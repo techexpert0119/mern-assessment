@@ -14,14 +14,14 @@ import ProfileModal from "../ProfileModal";
 
 import "./index.css";
 import { useSelector, useDispatch } from "react-redux";
-import { getAuthUser } from "../../container/User/slice/selector";
+import { selectAuthUser } from "../../container/User/slice/selector";
 import { logOut } from "../../container/User/slice/reducer";
 
 const NavigationBar = () => {
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const authData = useSelector(getAuthUser);
+  const authData = useSelector(selectAuthUser);
 
   const logoutHandler = () => {
     localStorage.removeItem("auth");
@@ -44,7 +44,10 @@ const NavigationBar = () => {
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
-        <Navbar.Collapse className="justify-content-end">
+        <Navbar.Collapse
+          className="justify-content-end"
+          style={{ minHeight: "60px" }}
+        >
           {authData ? (
             <DropdownButton
               variant=""
