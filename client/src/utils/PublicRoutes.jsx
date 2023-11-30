@@ -2,13 +2,16 @@ import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { isAuthenticated, getLoading } from "../container/User/slice/selector";
+import {
+  isAuthenticated,
+  selectLoading,
+} from "../container/User/slice/selector";
 
 const PublicRoutes = ({ children }) => {
   const isAuth = useSelector(isAuthenticated);
-  const loading = useSelector(getLoading);
+  const loading = useSelector(selectLoading);
 
-  if (isAuth && !loading) return <Navigate to="/tasks" />;
+  if (isAuth === true && !loading) return <Navigate to="/tasks" />;
 
   return <Outlet />;
 };
