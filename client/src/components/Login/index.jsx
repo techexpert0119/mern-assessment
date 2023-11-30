@@ -1,31 +1,36 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Spinner } from "react-bootstrap";
-import { Notify } from "../../utils";
 
 const Login = ({ isLoading, requestLogin }) => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
+  const [validated, setValidated] = useState(false);
 
   const handleCredentials = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const loginHandler = async (e) => {
+  const loginHandler = (e) => {
     e.preventDefault();
+    e.stopPropagation();
 
-    // If any field is missing
-    if (!credentials.email || !credentials.password) {
-      return Notify("Please Fill all the Feilds", "warn");
+    const form = e.currentTarget;
+    if (form.checkValidity() === true) {
+      requestLogin(credentials);
     }
-
-    requestLogin(credentials);
+    setValidated(true);
   };
 
   return (
-    <Form className="auth__form" onSubmit={loginHandler}>
+    <Form
+      noValidate
+      validated={validated}
+      className="auth__form"
+      onSubmit={loginHandler}
+    >
       <h3 className="text-center mb-5">Login to Your Account</h3>
       <Form.Group className="mb-3" controlId="email">
         <Form.Label>Email address</Form.Label>
@@ -37,10 +42,14 @@ const Login = ({ isLoading, requestLogin }) => {
           value={credentials.email}
           onChange={(e) => handleCredentials(e)}
           disabled={isLoading}
+          required
         />
+        <Form.Control.Feedback type="invalid">
+          Must input an email
+        </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group controlId="password">
+      <Form.Group className="mb-3" controlId="password">
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
@@ -50,10 +59,14 @@ const Login = ({ isLoading, requestLogin }) => {
           value={credentials.password}
           onChange={(e) => handleCredentials(e)}
           disabled={isLoading}
+          required
         />
+        <Form.Control.Feedback type="invalid">
+          Must input an password
+        </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-3 mt-1 text-center" controlId="register">
+      <Form.Group className="mb-3 text-center" controlId="register">
         <Link
           to="/forgotPassword"
           tabIndex="4"
