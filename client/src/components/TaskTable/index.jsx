@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import { styled as styledComponent } from "styled-components";
 
 import Button from "@mui/material/Button";
+import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
@@ -39,6 +40,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function TaskTable({ data, isLoading, requestDelete }) {
   const navigate = useNavigate();
+  const [isScreenWide, setScreenWide] = useState();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setScreenWide(true);
+      else setScreenWide(false);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+  }, []);
+
   return (
     <TableWrapper>
       <ControllerWrapper>
@@ -52,10 +64,12 @@ export default function TaskTable({ data, isLoading, requestDelete }) {
         </Button>
       </ControllerWrapper>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+        <Table sx={{ minWidth: 360 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="left">No</StyledTableCell>
+              {isScreenWide && (
+                <StyledTableCell align="left">No</StyledTableCell>
+              )}
               <StyledTableCell align="center">Title</StyledTableCell>
               <StyledTableCell align="center">Description</StyledTableCell>
               <StyledTableCell align="center">Deadline</StyledTableCell>
@@ -65,7 +79,9 @@ export default function TaskTable({ data, isLoading, requestDelete }) {
           <TableBody>
             {data.map((row, index) => (
               <StyledTableRow key={row._id}>
-                <StyledTableCell align="left">{index + 1}</StyledTableCell>
+                {isScreenWide && (
+                  <StyledTableCell align="left">{index + 1}</StyledTableCell>
+                )}
                 <StyledTableCell align="center">{row.title}</StyledTableCell>
                 <StyledTableCell align="center">
                   {row.description}
@@ -74,24 +90,41 @@ export default function TaskTable({ data, isLoading, requestDelete }) {
                   {moment(row.deadline).format("MMMM DD, YYYY")}
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  <ButtonWrapper>
-                    <Button
-                      variant="outlined"
-                      startIcon={<DeleteIcon />}
-                      color="secondary"
-                      onClick={() => requestDelete({ _id: row._id })}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      variant="contained"
-                      startIcon={<EditIcon />}
-                      color="secondary"
-                      onClick={() => navigate(`/tasks/${row._id}`)}
-                    >
-                      Edit
-                    </Button>
-                  </ButtonWrapper>
+                  {isScreenWide ? (
+                    <ButtonWrapper>
+                      <Button
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        color="secondary"
+                        onClick={() => requestDelete({ _id: row._id })}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        variant="contained"
+                        startIcon={<EditIcon />}
+                        color="secondary"
+                        onClick={() => navigate(`/tasks/${row._id}`)}
+                      >
+                        Edit
+                      </Button>
+                    </ButtonWrapper>
+                  ) : (
+                    <>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => requestDelete({ _id: row._id })}
+                      >
+                        <DeleteIcon variant="outlined" color="secondary" />
+                      </IconButton>
+                      <IconButton
+                        aria-label="edit"
+                        onClick={() => navigate(`/tasks/${row._id}`)}
+                      >
+                        <EditIcon variant="contained" color="secondary" />
+                      </IconButton>
+                    </>
+                  )}
                 </StyledTableCell>
               </StyledTableRow>
             ))}
@@ -103,7 +136,9 @@ export default function TaskTable({ data, isLoading, requestDelete }) {
 }
 
 const TableWrapper = styledComponent.div`
-    padding: 50px 100px;
+    padding: 50px 0px;
+    width: 90%;
+    margin: auto;
 `;
 const ButtonWrapper = styledComponent.div`
     display: flex;

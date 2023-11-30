@@ -1,7 +1,7 @@
 {
-  "name": "mern-stack-authentication-boilerplate",
+  "name": "mern-assessment",
   "version": "1.0.0",
-  "description": "Ultimate MERN Stack Authentication Boilerplate for production use",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

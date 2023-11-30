@@ -6,6 +6,7 @@ import {
   Image,
   Nav,
   Navbar,
+  NavDropdown,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -33,7 +34,7 @@ const NavigationBar = () => {
   };
 
   return (
-    <Navbar collapseOnSelect expand="md" variant="dark" id="nav">
+    <Navbar collapseOnSelect expand="lg" variant="dark" id="nav">
       <Container>
         <Navbar.Brand as={Link} to="/">
           <img
@@ -48,53 +49,22 @@ const NavigationBar = () => {
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
-        <Navbar.Collapse
-          className="justify-content-end"
-          style={{ minHeight: "60px" }}
-        >
+        <Navbar.Collapse className="justify-content-end">
           {authData ? (
-            <DropdownButton
-              variant=""
-              align="end"
-              title={
-                <Image
-                  id="profileDropdownIcon"
-                  src={authData.profilePic}
-                  alt="Navbar profile image"
-                  roundedCircle
-                />
-              }
-            >
-              <Dropdown.Item as="button" onClick={() => setModalShow(true)}>
-                Profile
-              </Dropdown.Item>
+            <Nav>
+              <Nav.Link onClick={() => setModalShow(true)}>Profile</Nav.Link>
+              <Nav.Link onClick={() => logoutHandler()}>Log Out</Nav.Link>
               <ProfileModal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 authData={authData}
               />
-
-              <Dropdown.Divider />
-
-              <Dropdown.Item as="button" onClick={logoutHandler}>
-                Log out
-              </Dropdown.Item>
-            </DropdownButton>
+            </Nav>
           ) : (
-            <Nav.Item>
-              <button
-                className="nav-button me-2"
-                onClick={() => navigate("/login")}
-              >
-                Log in
-              </button>
-              <button
-                className="nav-button"
-                onClick={() => navigate("/register")}
-              >
-                Register
-              </button>
-            </Nav.Item>
+            <Nav>
+              <Nav.Link href="/login">Log in</Nav.Link>
+              <Nav.Link href="/register">Register</Nav.Link>
+            </Nav>
           )}
         </Navbar.Collapse>
       </Container>

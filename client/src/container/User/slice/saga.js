@@ -23,11 +23,9 @@ function* authUserSaga() {
             yield put(authUserSuccess(response.data));
         } else {
             yield put(authUserFail(response.error));
-            Notify(response.error, 'error')
         }
     } catch (error) {
         yield put(loginUserFail(error));
-        Notify(error, 'error')
     }
 }
 
