@@ -212,11 +212,13 @@ const resetPassword = async (req, res, next) => {
 const sendAuth = (user, statusCode, res) => {
   return res.status(statusCode).json({
     success: true,
-    name: user.name,
-    email: user.email,
-    profilePic: user.profilePic,
-    token: user.getSignedToken(),
-    expires_at: new Date(Date.now() + process.env.JWT_EXPIRE * 60 * 60 * 1000),
+    data: {
+      name: user.name,
+      email: user.email,
+      profilePic: user.profilePic,
+      token: user.getSignedToken(),
+      expires_at: new Date(Date.now() + process.env.JWT_EXPIRE * 60 * 60 * 1000),
+    }
   });
 };
 
